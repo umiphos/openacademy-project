@@ -9,27 +9,33 @@
 				<sheet>
 					<group>
 						<field name="name"/>
-						<field name="description"/>
+						<field name="responsible_id"/>
 					</group>
 				</sheet>
 				<notebook>
 					<page string="Description">
 						<field name="description"/>
 					</page>
-					<page string="About">
-						This is an example of notebooks
+					<page string="Sessions">
+						<field name="session_ids">
+							<tree string="Registered sessions">
+								<field name="name"/>
+								<field name="instructor_id"/>
+							</tree>
+						</field>
 					</page>
 				</notebook>
 			</form>
 		</field>
 	</record>
-	<record model="ir.ui.view" id="course_list_view">
-		<field name="name">course.list</field>
+
+	<record model="ir.ui.view" id="course_tree_view">
+		<field name="name">course.tree</field>
 		<field name="model">openacademy.course</field>
 		<field name="arch" type="xml">
-			<tree string="Course Form">
+			<tree string="Course Tree">
 				<field name="name"/>
-				<field name="description"/>
+				<field name="responsible_id"/>
 			</tree>
 		</field>
 	</record>
@@ -65,17 +71,36 @@
 			<form string="Session Form">
 				<sheet>
 					<group>
-						<field name="name"/>
-						<field name="start_date"/>
-						<field name="duration"/>
-						<field name="seats"/>
+						<group string="General">
+							<field name="course_id"/>
+							<field name="name"/>
+							<field name="instructor_id"/>
+						</group>
+						<group string="Schedule">
+							<field name="start_date"/>
+							<field name="duration"/>
+							<field name="seats"/>
+						</group>
 					</group>
+					<label for="attendee_ids"/>
+					<field name="attendee_ids"/>
 				</sheet>
 			</form>
 		</field>
 	</record>
 
-	<record model="ir.actions.act_window" id="sessionlist_action">
+	<record model="ir.ui.view" id="session_tree_view">
+		<field name="name">session.tree</field>
+		<field name="model">openacademy.session</field>
+		<field name="arch" type="xml">
+			<tree string="Session Tree">
+				<field name="name"/>
+				<field name="course_id"/>
+			</tree>
+		</field>
+	</record>
+
+	<record model="ir.actions.act_window" id="session_list_action">
 		<field name="name">Sessions</field>
 		<field name="res_model">openacademy.session</field>
 		<field name="view_type">form</field>
