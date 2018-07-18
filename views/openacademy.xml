@@ -85,6 +85,7 @@
 						<group string="Schedule">
 							<field name="start_date"/>
 							<field name="duration"/>
+							<field name="end_date"/>
 							<field name="seats"/>
 							<field name="taken_seats" widget="progressbar"/>
 						</group>
@@ -176,7 +177,7 @@
 		<field name="name">Sessions</field>
 		<field name="res_model">openacademy.session</field>
 		<field name="view_type">form</field>
-		<field name="view_mode">tree,form,calenda,graph,kanban</field>
+		<field name="view_mode">tree,form,calendar,graph,kanban</field>
 	</record>
 
 	<menuitem id="session_menu" name="Sessions" parent="openacademy_menu" action="session_list_action"/>
