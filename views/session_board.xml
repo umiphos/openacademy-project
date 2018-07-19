@@ -8,7 +8,6 @@
 		<field name="view_mode">graph</field>
 		<field name="view_id" ref="openacademy.openacademy_session_graph_view"/>
 	</record>
-
 	<record model="ir.actions.act_window" id="act_session_calendar">
 		<field name="name">Sessions</field>
 		<field name="res_model">openacademy.session</field>
@@ -16,14 +15,12 @@
 		<field name="view_mode">calendar</field>
 		<field name="view_id" ref="openacademy.session_calendar_view"/>
 	</record>
-
 	<record model="ir.actions.act_window" id="act_course_list">
 		<field name="name">Courses</field>
 		<field name="res_model">openacademy.course</field>
 		<field name="view_type">form</field>
 		<field name="view_mode">tree,form</field>
 	</record>
-
 	<record model="ir.ui.view" id="board_session_form">
 		 <field name="name">Session Dashboard Form</field>
 		 <field name="model">board.board</field>
@@ -42,8 +39,7 @@
 		 	</form>
 		 </field>
 	</record>
-
-	<record model="ir.actions.act_window" id="open_board_session">
+	<record model="ir.actions.act_window" id="open_board_sessions">
 		<field name="name">Session Dashboard</field>
 		<field name="res_model">board.board</field>
 		<field name="view_type">form</field>
@@ -51,6 +47,5 @@
 		<field name="usage">menu</field>
 		<field name="view_id" ref="board_session_form"/>
 	</record>
-
-	<menuitem name="Session Dashboard" parent="base.menu_reporting_dashboard" action="open_board_session" sequence="1" id="menu_board_sessions"/>
+	<menuitem name="Session Dashboard" parent="base.menu_reporting_dashboard" action="open_board_sessions" sequence="1" id="menu_board_sessions" icon="terp-graph"/>
 </odoo>
