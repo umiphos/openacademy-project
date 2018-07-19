@@ -26,13 +26,6 @@ user_data = odoo.execute('res.users', 'read', [user.id])
 print(user_data)
 
 # Use all methos of a model
-# if 'sale.order' in odoo.env:
-# 	Order = odoo.env['saler.order']
-# 	order_ids = Order.search([])
-# 	for order in Order.browse(order_ids):
-# 		print(order.name)
-# 		products = [line.product_id.name for line in order.order_line]
-# 		print(products)
 if 'openacademy.course' in odoo.env:
 	Course = odoo.env['openacademy.course']
 	course_ids = Course.search([])
