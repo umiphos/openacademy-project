@@ -11,7 +11,7 @@ class GloabalTestOpenAcademyCourse(common.TransactionCase):
 	# Global test for openacademy module,
 	# Test course and sessions
 
-	# Psheudo-constructor method of test etUp
+	# Psheudo-constructor method of test setUp
 	def setUp(self):
 
 		# Define global variables to test methods
