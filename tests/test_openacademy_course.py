@@ -7,18 +7,20 @@ from odoo.tools import mute_logger
 # "with mute_loger('odoo.sql_db'), ..." or 
 # "@mute_logger('odoo.sql_db')" before function
 
-class GloabalTestOpenAcademyCourse(common.TransactionCase):
+class GlobalTestOpenAcademyCourse(common.TransactionCase):
 	# Global test for openacademy module,
-	# Test course and sessions
+	# Test course
 
-	# Psheudo-constructor method of test setUp
+	# Pseudo-constructor method of test setUp
 	def setUp(self):
 
 		# Define global variables to test methods
-		super(GloabalTestOpenAcademyCourse, self).setUp()
+		super(GlobalTestOpenAcademyCourse, self).setUp()
 		self.course = self.env['openacademy.course']
 
 	# Class methods (Isn't a test)
+
+	# Create course function
 	def create_course(self, course_name, course_description, course_responsible_id):
 		course_id = self.course.create({
 			'name': course_name,
@@ -37,7 +39,6 @@ class GloabalTestOpenAcademyCourse(common.TransactionCase):
 		with self.assertRaisesRegexp(IntegrityError,
 			'new row for relation "openacademy_course" violates check'
 			' constraint "openacademy_course_name_description_check"'):
-			print("Creating new test with same name and description")
 			self.create_course('test','test', None)
 
 	@mute_logger('odoo.sql_db')
@@ -47,7 +48,6 @@ class GloabalTestOpenAcademyCourse(common.TransactionCase):
 		# Constraint of unique name
 		with self.assertRaisesRegexp(IntegrityError,
 			'duplicate key value violates unique constraint "openacademy_course_name_unique"'):
-			print("Creating test with existing name")
 			self.create_course('Test Name', 'Test Description', None)
 			self.create_course('Test Name', 'Test Description', None)
 	
@@ -56,4 +56,6 @@ class GloabalTestOpenAcademyCourse(common.TransactionCase):
 		# Test: Duplicate course and pass constraint name
 		course = self.env.ref('openacademy.course0')
 		course_id = course.copy()
-		print("Course_id", course_id)
+		self.assertEqual(
+			course_id.name,
+			'Copy of Course 0')
