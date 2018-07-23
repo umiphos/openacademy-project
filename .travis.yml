@@ -1,4 +1,5 @@
 language: python
+
 sudo: false
 cache: pip
 
@@ -28,6 +29,10 @@ env:
 
 virtualenv:
   system_site_packages: true
+  
+before_install:
+  - ls /opt/python/
+  - /opt/python/3.6/bin/python --version
 
 install:
   - git clone --depth=1 https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
