@@ -1,45 +1,47 @@
 language: python
 
 sudo: false
-cache: pip
+cache:
+  apt: true
+  directories:
+    - $HOME/.pip-cache/
 
 python:
-  - "3.5"
+  - "3.4"
+
+virtualenv:
+  system_site_packages: true
+
+env:
+  global:
+  - LINT_CHECK=0 ODOO_LINT=0 TESTS="0" VERSION="11.0" ODOO_REPO="vauxoo/odoo"
+
+  matrix:
+  - LINT_CHECK=1
+  - ODOO_LINT=1
+  - TESTS="1" UNIT_TEST="1"
 
 addons:
   apt:
-# only add the two lines below if you need wkhtmltopdf for your tests
-#    sources:
-#      - pov-wkhtmltopdf
     packages:
       - expect-dev  # provides unbuffer utility
       - python-lxml  # because pip installation is slow
       - python-simplejson
       - python-serial
-      - python-yaml
-#      - wkhtmltopdf  # only add if needed and check the before_install section below
-
-env:
-  global:
-  - VERSION="11.0" TESTS="0" LINT_CHECK="0"
-
-  matrix:
-  - LINT_CHECK="1"
-  - TESTS="1" ODOO_REPO="odoo/odoo"
-
-virtualenv:
-  system_site_packages: true
-  
-before_install:
-  - ls /opt/python/
-  - /opt/python/3.5/bin/python --version
+      - python-xlrd
 
 install:
-  - git clone --depth=1 https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
+  - git clone --single-branch --depth=1 https://github.com/vauxoo/maintainer-quality-tools.git -b master ${HOME}/maintainer-quality-tools
+  - find ${HOME}/maintainer-quality-tools/travis -name test_flake8 -exec sed -i "s/get_modules/get_modules_changed/g" {} \;
+  - find ${HOME}/maintainer-quality-tools/travis -name test_flake8 -exec sed -i "s/get_modules_changed(os.path.abspath('.')/get_modules_changed(os.path.abspath('.'), 'origin\/' \+ os.environ['TRAVIS_BRANCH']/g" {} \;
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - travis_install_nightly
 
 script:
+  # get modules changed and set environment variable INCLUDE_LINT
+  - PYTHONPATH=${PATH} python -c "import getaddons;print 'export INCLUDE_LINT=\"' + ' '.join(getaddons.get_modules_changed('${TRAVIS_BUILD_DIR}', 'origin/${TRAVIS_BRANCH}')) + '\"'" >${TRAVIS_BUILD_DIR}/modules_changed.profile
+  - PYTHONPATH=${PATH} python -c "import os, getaddons;print 'export INCLUDE=\"' + ','.join(map(os.path.basename, getaddons.get_modules_changed('${TRAVIS_BUILD_DIR}', 'origin/${TRAVIS_BRANCH}'))) + '\"'" >>${TRAVIS_BUILD_DIR}/modules_changed.profile
+  - source ${TRAVIS_BUILD_DIR}/modules_changed.profile
   - travis_run_tests
 
 after_success:
