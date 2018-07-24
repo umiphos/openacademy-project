@@ -27,9 +27,9 @@ print(user_data)
 
 # Use all methos of a model
 if 'openacademy.course' in odoo.env:
-	Course = odoo.env['openacademy.course']
-	course_ids = Course.search([])
-	print(course_ids)
-	for course in Course.browse(course_ids):
-		course.name = course.name + ' D'
-		print(course.name)
+    Course = odoo.env['openacademy.course']
+    course_ids = Course.search([])
+    print(course_ids)
+    for course in Course.browse(course_ids):
+        course.name = course.name + ' D'
+        print(course.name)
