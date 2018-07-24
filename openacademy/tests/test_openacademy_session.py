@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from odoo.tests import common
 from psycopg2 import IntegrityError
-from odoo.tools import mute_logger
 from odoo import exceptions
+from odoo.tests import common
+from odoo.tools import mute_logger
 
 class GlobalTestOpenAcademySession(common.TransactionCase):
     # Global test for openacademy module,
@@ -41,9 +41,9 @@ class GlobalTestOpenAcademySession(common.TransactionCase):
         with self.assertRaisesRegexp(exceptions.ValidationError, 'A session\'s instructor can\'t'
         ' be an attendee'):
 
-            self.create_session('Session Test Name', 2, self.partner.id, 
+            self.create_session('Session Test Name', 2, self.partner.id,
             [(6,0,[self.partner.id])], self.course.id)
-    
+
     # Mute SQL error
     @mute_logger('odoo.sql_db')
     def test_20_session_without_course(self):
@@ -53,7 +53,7 @@ class GlobalTestOpenAcademySession(common.TransactionCase):
         with self.assertRaisesRegexp(IntegrityError, 'null value in column "course_id"'
             ' violates not-null constraint'):
 
-            self.create_session('Session Test Name', 2, self.partner.id, 
+            self.create_session('Session Test Name', 2, self.partner.id,
             [(6,0,[self.partner.id])], None)
 
     # Mute SQL error
@@ -61,7 +61,7 @@ class GlobalTestOpenAcademySession(common.TransactionCase):
     def test_30_create_valid_session(self):
         # Test: Create a session with valid parameters
 
-        session = self.create_session('Session Test Name', 2, self.partner.id, 
+        session = self.create_session('Session Test Name', 2, self.partner.id,
         [(6,0,[self.attendee.id])], self.course.id)
 
         self.assertTrue(self.session.search([('id','=', "{}".format(session.id))]).id)

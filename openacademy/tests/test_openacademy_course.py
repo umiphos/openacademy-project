@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from odoo.tests import common
 from psycopg2 import IntegrityError
+from odoo.tests import common
 from odoo.tools import mute_logger
 
 # To mute sql constraints error use:
-# "with mute_loger('odoo.sql_db'), ..." or 
+# "with mute_loger('odoo.sql_db'), ..." or
 # "@mute_logger('odoo.sql_db')" before function
 
 class GlobalTestOpenAcademyCourse(common.TransactionCase):
@@ -33,7 +33,7 @@ class GlobalTestOpenAcademyCourse(common.TransactionCase):
 
     @mute_logger('odoo.sql_db')
     def test_10_course_same_name_description(self):
-        
+
         # Test: Create a course with the same name and description.
         # Constraint of different name than description.
         with self.assertRaisesRegexp(IntegrityError,
@@ -50,7 +50,7 @@ class GlobalTestOpenAcademyCourse(common.TransactionCase):
             'duplicate key value violates unique constraint "openacademy_course_name_unique"'):
             self.create_course('Test Name', 'Test Description', None)
             self.create_course('Test Name', 'Test Description', None)
-    
+
     def test_15_duplicate_course(self):
 
         # Test: Duplicate course and pass constraint name
